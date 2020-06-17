@@ -5,10 +5,6 @@ describe MoviesController do
 
   describe 'find movies with same director' do
     # Do not work in current versioning
-    #it 'calls the model method that performs director search' do
-    #  expect(Movie).to receive(:other_movies_by_director).with('0')
-    #  get :director, id: '0'
-    #end
     context 'when a Director value is present' do
       before do
         # stub find method on Movie
@@ -19,6 +15,11 @@ describe MoviesController do
         allow(Movie).to receive(:other_movies_by_director).and_return @spielberg_films
       end
 
+      it 'calls the model method that performs director search' do
+        expect(Movie).to receive(:other_movies_by_director).with('0')
+        get :director_movies, id: '0'
+      end
+      
       it 'makes the search results available to that template' do
         get :director_movies, id: @movie.id
         assigns(:director).should == @movie.director
